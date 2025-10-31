@@ -11,7 +11,7 @@ public class Main {
 	private static final String FILE_PATH = "";
 
 	public static void main(String[] args) {
-		Main app = new AutomobileInventory();
+		Main app = new Main();
 		app.run();
 	}
 
@@ -91,7 +91,7 @@ public class Main {
 			}
 			System.out.println("Current Inventory:");
 			for (Automobile vehicle : inventory) {
-				System.out.println(vehicle);
+				System.out.println(vehicle.stringFormat());
 			}
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
@@ -128,7 +128,7 @@ public class Main {
 			boolean isAvailable = Boolean.parseBoolean(scnr.nextLine());
 			
 			exists.addAutomobile(vehicleId, make, model, vin, color, drivetrain, category, year, mileage, price, isAvailable);
-			System.out.println("Vehicle updated.")
+			System.out.println("Vehicle updated.");
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
@@ -150,12 +150,38 @@ public class Main {
 		}
 	}
 	
-	private Automobie findVehicle(String vehicleId) {
+	private Automobile findVehicle(String vehicleId) {
 		for(Automobile vehicle : inventory) {
 			if (vehicle.getVehicleId().equalsIgnoreCase(vehicleId)) {
 				return vehicle; 
 			}
 		}
 		return null;
+	}
+// File writing and reading
+	private void saveToFile() {
+		try (FileWriter writer = new FileWriter(FILE_PATH)) {
+			for (Automobile vehicle : inventory) {
+				writer.write(vehicle.toDataString() + "\n");
+			}
+			System.out.println("Inventory saved.");
+		} catch (IOException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
+	private void loadFromFile() {
+		File file = new File(FILE_PATH);
+		if(!file.exists()) return;
+		
+		try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
+			String line;
+			while((line = reader.readLine()) != null) {
+				Automobile vehicle = Automobile.fromDataString(line);
+				if (vehicle != null) inventory.add(vehicle);
+			}
+			System.out.println("Loaded " + inventory.size() + " vehicle(s) from file.");
+		} catch (IOException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 	}
 }

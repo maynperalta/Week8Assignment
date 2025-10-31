@@ -80,7 +80,7 @@ public class Automobile {
 		try {
 			String[] parts = line.split(",");
 			if(parts.length != 11) return null;
-			return new Automobile(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], Integer.parseInt(parts[7]), Double.parseDouble(parts[8]), Double.parseDouble(parts[9]), Boolean.parseBoolean(parts[10]));
+			return new Automobile(parts[0], parts[1], parts[2], parts[6], parts[3], parts[4], parts[5], Integer.parseInt(parts[7]), Double.parseDouble(parts[8]), Double.parseDouble(parts[9]), Boolean.parseBoolean(parts[10]));
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 			return null;

@@ -50,5 +50,38 @@ public class Main {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+// Methods to add, view, update, and delete	
+	private void addAutomobile(Scanner scnr) {
+		try {
+			System.out.print("Enter unique vehicle ID: ");
+			String vehicleId = scnr.nextLine();
+			System.out.print("Enter vehicle make: ");
+			String make = scnr.nextLine();
+			System.out.print("Enter vehicle model: ");
+			String model = scnr.nextLine();
+			System.out.print("Enter VIN: ");
+			String vin = scnr.nextLine();
+			System.out.print("Enter vehicle color: ");
+			String color = scnr.nextLine();
+			System.out.print("Enter drivetrain type (AWD, RWD, or FWD): ");
+			String drivetrain = scnr.nextLine();
+			System.out.print("Enter vehicle category (SUV, Sedan, etc): ");
+			String category = scnr.nextLine();
+			System.out.print("Enter vehicle year: ");
+			int year = Integer.parseInt(scnr.nextLine());
+			System.out.print("Enter vehicle mileage: ");
+			double mileage = Double.parseDouble(scnr.nextLine());
+			System.out.print("Enter vehicle MSRP");
+			double price = Double.parseDouble(scnr.nextLine());
+			System.out.print("Is vehicle available (true/false): ");
+			boolean isAvailable = Boolean.parseBoolean(scnr.nextLine());
+			
+			Automobile vehicle = new Automobile(vehicleId, make, model, vin, color, drivetrain, category, year, mileage, price, isAvailable);
+			inventory.add(vehicle);
+			System.out.println("Vehicle added to inventory.");
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
 	
 }

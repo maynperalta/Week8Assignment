@@ -71,7 +71,7 @@ public class Main {
 			int year = Integer.parseInt(scnr.nextLine());
 			System.out.print("Enter vehicle mileage: ");
 			double mileage = Double.parseDouble(scnr.nextLine());
-			System.out.print("Enter vehicle MSRP");
+			System.out.print("Enter vehicle MSRP: ");
 			double price = Double.parseDouble(scnr.nextLine());
 			System.out.print("Is vehicle available (true/false): ");
 			boolean isAvailable = Boolean.parseBoolean(scnr.nextLine());
@@ -83,5 +83,79 @@ public class Main {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+	private void displayInventory() {
+		try {
+			if (inventory.isEmpty()) {
+				System.out.println("Inventory currenlty empty.");
+				return;
+			}
+			System.out.println("Current Inventory:");
+			for (Automobile vehicle : inventory) {
+				System.out.println(vehicle);
+			}
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
+	private void updateAutomobile(Scanner scnr) {
+		try {
+			System.out.print("Enter ID of vehicle to update: ");
+			String vehicleId = scnr.nextLine();
+			Automobile exists = findVehicle(vehicleId);
+			if (exists == null) {
+				System.out.println("No vehicle matches ID.");
+				return;
+			}
+			System.out.print("Update make: ");
+			String make = scnr.nextLine();
+			System.out.print("Update model: ");
+			String model = scnr.nextLine();
+			System.out.print("Update VIN: ");
+			String vin = scnr.nextLine();
+			System.out.print("Update color: ");
+			String color = scnr.nextLine();
+			System.out.print("Update drivetrain: ");
+			String drivetrain = scnr.nextLine();
+			System.out.print("Update category: ");
+			String category = scnr.nextLine();
+			System.out.print("Update year: ");
+			int year = Integer.parseInt(scnr.nextLine());
+			System.out.print("Update mileage: ");
+			double mileage = Double.parseDouble(scnr.nextLine());
+			System.out.print("Update price: ");
+			double price = Double.parseDouble(scnr.nextLine());
+			System.out.print("Is vehicle available (true/false): ");
+			boolean isAvailable = Boolean.parseBoolean(scnr.nextLine());
+			
+			exists.addAutomobile(vehicleId, make, model, vin, color, drivetrain, category, year, mileage, price, isAvailable);
+			System.out.println("Vehicle updated.")
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
+	private void deleteAutomobile(Scanner scnr) {
+		try {
+			System.out.print("Enter ID of vehicle to delete: ");
+			String vehicleId = scnr.nextLine();
+			
+			Automobile vehicle = findVehicle(vehicleId);
+			if (vehicle != null) {
+				inventory.remove(vehicle);
+				System.out.println("Vehicle deleted.");
+			} else {
+				System.out.println("Vehicle ID not found.");
+			}
+		} catch(Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
 	
+	private Automobie findVehicle(String vehicleId) {
+		for(Automobile vehicle : inventory) {
+			if (vehicle.getVehicleId().equalsIgnoreCase(vehicleId)) {
+				return vehicle; 
+			}
+		}
+		return null;
+	}
 }

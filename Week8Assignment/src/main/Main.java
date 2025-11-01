@@ -14,7 +14,7 @@ public class Main {
 		Main app = new Main();
 		app.run();
 	}
-
+// Switch case for menu
 	public void run() {
 		loadFromFile();
 		try(Scanner scnr = new Scanner(System.in)) {
@@ -39,7 +39,7 @@ public class Main {
 					case "4" -> deleteAutomobile(scnr);
 					case "5" -> saveToFile();
 					case "6" -> {
-						saveToFile();
+						saveOnExit(scnr);
 						System.out.println("Exiting program.");
 						running = false;
 					}
@@ -50,7 +50,7 @@ public class Main {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-// Methods to add, view, update, and delete	
+// Method to add automobile	
 	private void addAutomobile(Scanner scnr) {
 		try {
 			System.out.print("Enter unique vehicle ID: ");
@@ -70,9 +70,9 @@ public class Main {
 			System.out.print("Enter vehicle year: ");
 			int year = Integer.parseInt(scnr.nextLine());
 			System.out.print("Enter vehicle mileage: ");
-			double mileage = Double.parseDouble(scnr.nextLine());
+			int mileage = Integer.parseInt(scnr.nextLine());
 			System.out.print("Enter vehicle MSRP: ");
-			double price = Double.parseDouble(scnr.nextLine());
+			int price = Integer.parseInt(scnr.nextLine());
 			System.out.print("Is vehicle available (true/false): ");
 			boolean isAvailable = Boolean.parseBoolean(scnr.nextLine());
 			
@@ -83,10 +83,11 @@ public class Main {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+// Method to display dealer inventory
 	private void displayInventory() {
 		try {
 			if (inventory.isEmpty()) {
-				System.out.println("Inventory currenlty empty.");
+				System.out.println("Inventory currently empty.");
 				return;
 			}
 			System.out.println("Current Inventory:");
@@ -97,13 +98,14 @@ public class Main {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+// Method to update automobile data
 	private void updateAutomobile(Scanner scnr) {
 		try {
 			System.out.print("Enter ID of vehicle to update: ");
 			String vehicleId = scnr.nextLine();
-			Automobile exists = findVehicle(vehicleId);
-			if (exists == null) {
-				System.out.println("No vehicle matches ID.");
+			Automobile vehicle = findVehicle(vehicleId);
+			if (vehicle == null) {
+				System.out.println("ID not found.");
 				return;
 			}
 			System.out.print("Update make: ");
@@ -121,38 +123,38 @@ public class Main {
 			System.out.print("Update year: ");
 			int year = Integer.parseInt(scnr.nextLine());
 			System.out.print("Update mileage: ");
-			double mileage = Double.parseDouble(scnr.nextLine());
+			int mileage = Integer.parseInt(scnr.nextLine());
 			System.out.print("Update price: ");
-			double price = Double.parseDouble(scnr.nextLine());
+			int price = Integer.parseInt(scnr.nextLine());
 			System.out.print("Is vehicle available (true/false): ");
 			boolean isAvailable = Boolean.parseBoolean(scnr.nextLine());
 			
-			exists.addAutomobile(vehicleId, make, model, vin, color, drivetrain, category, year, mileage, price, isAvailable);
+			System.out.println(vehicle.addAutomobile(vehicleId, make, model, vin, color, drivetrain, category, year, mileage, price, isAvailable));
 			System.out.println("Vehicle updated.");
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+// Method to clear automobile data
 	private void deleteAutomobile(Scanner scnr) {
 		try {
 			System.out.print("Enter ID of vehicle to delete: ");
 			String vehicleId = scnr.nextLine();
-			
 			Automobile vehicle = findVehicle(vehicleId);
 			if (vehicle != null) {
+				System.out.println(vehicle.removeVehicle());
 				inventory.remove(vehicle);
-				System.out.println("Vehicle deleted.");
 			} else {
 				System.out.println("Vehicle ID not found.");
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-	
+// Find automobile	
 	private Automobile findVehicle(String vehicleId) {
-		for(Automobile vehicle : inventory) {
-			if (vehicle.getVehicleId().equalsIgnoreCase(vehicleId)) {
+		for (Automobile vehicle : inventory) {
+			if (vehicle.getAutomobile().equalsIgnoreCase(vehicleId)) {
 				return vehicle; 
 			}
 		}
@@ -162,7 +164,8 @@ public class Main {
 	private void saveToFile() {
 		try (FileWriter writer = new FileWriter(FILE_PATH)) {
 			for (Automobile vehicle : inventory) {
-				writer.write(vehicle.toDataString() + "\n");
+				String[] data = vehicle.displayAutomobile();
+				writer.write(String.join(",", data) + "\n");
 			}
 			System.out.println("Inventory saved.");
 		} catch (IOException e) {
@@ -176,12 +179,25 @@ public class Main {
 		try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			String line;
 			while((line = reader.readLine()) != null) {
-				Automobile vehicle = Automobile.fromDataString(line);
-				if (vehicle != null) inventory.add(vehicle);
+				String[] parts = line.split(",");
+				if (parts.length == 11) {
+					Automobile vehicle = new Automobile(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9]), Boolean.parseBoolean(parts[10]));
+					inventory.add(vehicle);
+				}
 			}
 			System.out.println("Loaded " + inventory.size() + " vehicle(s) from file.");
 		} catch (IOException e) {
 			System.out.println("Error: " + e.getMessage());
+		}
+	}
+// Ask user to save when exiting
+	private void saveOnExit(Scanner scnr) {
+		System.out.println("Do you wish to save inventory data (Y/N)?: ");
+		String userChoice = scnr.nextLine();
+		if (userChoice.equalsIgnoreCase("Y")) {
+			saveToFile();
+		} else {
+			System.out.println("Inventory not saved.");
 		}
 	}
 }

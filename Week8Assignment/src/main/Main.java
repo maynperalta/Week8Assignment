@@ -40,7 +40,7 @@ public class Main {
 					case "5" -> saveToFile();
 					case "6" -> {
 						saveToFile();
-						System.out.println("Saving inventory and exiting program.");
+						System.out.println("Exiting program.");
 						running = false;
 					}
 					default -> System.out.println("Invalid selection. Try again.");				

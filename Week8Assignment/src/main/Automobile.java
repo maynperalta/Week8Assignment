@@ -10,8 +10,8 @@ public class Automobile {
 	private String drivetrain;
 	private String category;
 	private int year;
-	private double mileage;
-	private double price;
+	private int mileage;
+	private int price;
 	private boolean isAvailable;
 	
 // Default and parameterized constructors
@@ -25,14 +25,14 @@ public class Automobile {
 			this.drivetrain = "";
 			this.category = "";
 			this.year = 0;
-			this.mileage = 0.0;
-			this.price = 0.0;
+			this.mileage = 0;
+			this.price = 0;
 			this.isAvailable = false;
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage()); 			
 		}
 	}	
-	public Automobile(String vehicleId, String make, String model, String vin, String color, String drivetrain, String category, int year, double mileage, double price, boolean isAvailable) {
+	public Automobile(String vehicleId, String make, String model, String vin, String color, String drivetrain, String category, int year, int mileage, int price, boolean isAvailable) {
 		try {
 			this.vehicleId = vehicleId;
 			this.make = make;
@@ -50,8 +50,8 @@ public class Automobile {
 		}
 	}
 // Methods
-// Add automobile
-	public String addAutomobile(String vehicleId, String make, String model, String vin, String color, String drivetrain, String category, int year, double mileage, double price, boolean isAvailable) {
+// Add/update automobile
+	public String addAutomobile(String vehicleId, String make, String model, String vin, String color, String drivetrain, String category, int year, int mileage, int price, boolean isAvailable) {
 		try {
 			this.vehicleId = vehicleId;
 			this.make = make;
@@ -70,21 +70,38 @@ public class Automobile {
 		}
 	}
 // Convert to strings	
-	public String stringFormat() {
-		return String.format("ID: %s %d %s %s | Color: %s, Drivetrain: %s, Category: %s, Mileage: %.1f, Price: $%.2f, VIN: %s, Available: %s", vehicleId, year, make, model, color, drivetrain, category, mileage, price, vin, (isAvailable ? "Yes" : "No"));
-	}
-	public String toDataString() {
-		return String.join(",", vehicleId, make, model, color, drivetrain, category, vin, String.valueOf(year), String.valueOf(mileage), String.valueOf(price), String.valueOf(isAvailable));
-	}
-	public static Automobile fromDataString(String line) {
+	public String[] displayAutomobile() {
 		try {
-			String[] parts = line.split(",");
-			if(parts.length != 11) return null;
-			return new Automobile(parts[0], parts[1], parts[2], parts[6], parts[3], parts[4], parts[5], Integer.parseInt(parts[7]), Double.parseDouble(parts[8]), Double.parseDouble(parts[9]), Boolean.parseBoolean(parts[10]));
+			return new String[] { vehicleId, String.valueOf(year), make, model, color, drivetrain, category, String.valueOf(mileage), String.valueOf(price), vin, (isAvailable ? "Yes" : "No") };
 		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-			return null;
+			return new String[] { "Error: " + e.getMessage() };
 		}
 	}
-	public String getVehicleId() { return vehicleId; }
+// Delete automobile		
+	public String deleteAutomobile() {
+		try {
+			this.vehicleId = "";
+			this.make = "";
+			this.model = "";
+			this.vin = "";
+			this.color = "";
+			this.drivetrain = "";
+			this.category = "";
+			this.year = 0;
+			this.mileage = 0;
+			this.price = 0;
+			this.isAvailable = false;
+			return "Automobile data cleared.";
+		} catch (Exception e) {
+			return "Error: " + e.getMessage();
+		}
+	}
+// Display as string
+	public String stringFormat() {
+		return String.format("ID: %s | %d %s %s | Color: %s | Drivetrain: %s | Category: %s | Mileage: %d | Price $d | VIN: %s | Available: %b", 
+				vehicleId, year, make, model, color, drivetrain, category, mileage, price, vin, isAvailable);
+	}
+	public String getAutomobile() {
+		return vehicleId;
+	}
 }

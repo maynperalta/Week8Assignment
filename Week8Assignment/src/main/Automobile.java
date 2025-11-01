@@ -98,7 +98,7 @@ public class Automobile {
 	}
 // Display as string
 	public String stringFormat() {
-		return String.format("ID: %s | %d %s %s | Color: %s | Drivetrain: %s | Category: %s | Mileage: %d | Price $d | VIN: %s | Available: %b", 
+		return String.format("ID: %s | %d %s %s | Color: %s | Drivetrain: %s | Category: %s | Mileage: %d | Price $%d | VIN: %s | Available: %b", 
 				vehicleId, year, make, model, color, drivetrain, category, mileage, price, vin, isAvailable);
 	}
 	public String getAutomobile() {

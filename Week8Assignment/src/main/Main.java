@@ -142,7 +142,7 @@ public class Main {
 			String vehicleId = scnr.nextLine();
 			Automobile vehicle = findVehicle(vehicleId);
 			if (vehicle != null) {
-				System.out.println(vehicle.removeVehicle());
+				System.out.println(vehicle.deleteAutomobile());
 				inventory.remove(vehicle);
 			} else {
 				System.out.println("Vehicle ID not found.");
@@ -192,12 +192,20 @@ public class Main {
 	}
 // Ask user to save when exiting
 	private void saveOnExit(Scanner scnr) {
-		System.out.println("Do you wish to save inventory data (Y/N)?: ");
-		String userChoice = scnr.nextLine();
-		if (userChoice.equalsIgnoreCase("Y")) {
-			saveToFile();
-		} else {
-			System.out.println("Inventory not saved.");
+		boolean inputValid = false;
+		
+		while(!inputValid) {
+			System.out.println("Do you wish to save inventory data (Y/N)?: ");
+			String userChoice = scnr.nextLine();
+			if (userChoice.equalsIgnoreCase("Y")) {
+				saveToFile();
+				inputValid = true;
+			} else if (userChoice.equalsIgnoreCase("N")) {
+				System.out.println("Inventory not saved.");
+				inputValid = true;
+			} else {
+				System.out.println("Invalid input.");
+			}
 		}
 	}
 }

@@ -32,7 +32,8 @@ public class Automobile {
 			System.out.println("Error: " + e.getMessage()); 			
 		}
 	}	
-	public Automobile(String vehicleId, String make, String model, String vin, String color, String drivetrain, String category, int year, int mileage, int price, boolean isAvailable) {
+	public Automobile(String vehicleId, String make, String model, String vin, String color, 
+			String drivetrain, String category, int year, int mileage, int price, boolean isAvailable) {
 		try {
 			this.vehicleId = vehicleId;
 			this.make = make;
@@ -51,7 +52,8 @@ public class Automobile {
 	}
 // Methods
 // Add/update automobile
-	public String addAutomobile(String vehicleId, String make, String model, String vin, String color, String drivetrain, String category, int year, int mileage, int price, boolean isAvailable) {
+	public String addAutomobile(String vehicleId, String make, String model, String vin, String color, 
+			String drivetrain, String category, int year, int mileage, int price, boolean isAvailable) {
 		try {
 			this.vehicleId = vehicleId;
 			this.make = make;
@@ -72,7 +74,8 @@ public class Automobile {
 // Convert to strings	
 	public String[] displayAutomobile() {
 		try {
-			return new String[] { vehicleId, String.valueOf(year), make, model, color, drivetrain, category, String.valueOf(mileage), String.valueOf(price), vin, (isAvailable ? "Yes" : "No") };
+			return new String[] { vehicleId, String.valueOf(year), make, model, color, drivetrain, 
+					category, String.valueOf(mileage), String.valueOf(price), vin, String.valueOf(isAvailable) };
 		} catch (Exception e) {
 			return new String[] { "Error: " + e.getMessage() };
 		}

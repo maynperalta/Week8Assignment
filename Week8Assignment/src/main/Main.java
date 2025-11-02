@@ -181,7 +181,9 @@ public class Main {
 			while((line = reader.readLine()) != null) {
 				String[] parts = line.split(",");
 				if (parts.length == 11) {
-					Automobile vehicle = new Automobile(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9]), Boolean.parseBoolean(parts[10]));
+					Automobile vehicle = new Automobile(parts[0], parts[2], parts[3], parts[9], parts[4], 
+							parts[5], parts[6], Integer.parseInt(parts[1]), Integer.parseInt(parts[7]),
+							Integer.parseInt(parts[8]), Boolean.parseBoolean(parts[10]));
 					inventory.add(vehicle);
 				}
 			}
